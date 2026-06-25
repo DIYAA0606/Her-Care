@@ -4,7 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LogCycle from "./pages/LogCycle";
 import LogSymptom from "./pages/LogSymptom";
-import MyCycles from "./pages/myCycles";
+import MyCycles from "./pages/MyCycles";
 import MySymptoms from "./pages/MySymptoms";
 import UploadReports from "./pages/UploadReports";
 import AddResults from "./pages/AddResults";
