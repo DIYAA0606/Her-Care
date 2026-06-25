@@ -5,7 +5,6 @@ from models.lab_result import LabResult
 from extensions import db
 import os
 import base64
-import anthropic
 from werkzeug.utils import secure_filename
 
 reports_bp = Blueprint("reports", __name__, url_prefix="/api/reports")
