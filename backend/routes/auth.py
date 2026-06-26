@@ -79,7 +79,7 @@ def refresh():
 
 
 @auth_bp.route("/delete-account",methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def delete_account():
     user_id=get_jwt_identity()
     try:

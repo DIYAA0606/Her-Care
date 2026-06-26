@@ -14,6 +14,7 @@ import Signup from "./pages/Signup";
 import Analytics from "./pages/Analytics";
 import QuickLog from "./pages/QuickLog";
 import Profile from "./pages/Profile";
+import DeleteAccount from "./pages/DeleteAccount";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="analytics" element={<ProtectedRoute><Analytics/></ProtectedRoute>}/>
         <Route path="/quick-log" element={<ProtectedRoute><QuickLog/></ProtectedRoute>}/>
         <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+        <Route path="/delete-account" element={<ProtectedRoute><DeleteAccount/></ProtectedRoute>}/>
       </Routes>
     </BrowserRouter>
   );
