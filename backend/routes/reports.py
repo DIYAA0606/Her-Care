@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 
 reports_bp = Blueprint("reports", __name__, url_prefix="/api/reports")
 
+from flask_cors import cross_origin
 ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg"}
 
 def allowed_file(filename):
@@ -166,9 +167,16 @@ def get_reports():
         for r in reports
     ]), 200
 
-@reports_bp.route("/tip", methods=["GET"])
-@jwt_required()
+@reports_bp.route("/tip", methods=["GET", "OPTIONS"])
+@cross_origin(origins=[
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://hercare-frontend.vercel.app"
+], supports_credentials=True)
+@jwt_required(optional=True)
 def get_health_tip():
+    if request.method == "OPTIONS":
+        return jsonify({}), 200
     import google.generativeai as genai
 
     user_id = get_jwt_identity()
