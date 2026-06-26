@@ -118,20 +118,7 @@ function Analytics() {
             </h1>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <button
-    onClick={() => setDrawerOpen(true)}
-    style={{
-      background: "none", border: "none", cursor: "pointer",
-      padding: 4, display: "flex", flexDirection: "column",
-      gap: 5, alignItems: "flex-start"
-    }}
-  >
-    <span style={{ display: "block", width: 22, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
-    <span style={{ display: "block", width: 16, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
-    <span style={{ display: "block", width: 19, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
-  </button>
-
-          <button
+              <button
             onClick={handleDownloadPDF}
             disabled={downloading}
             style={{
@@ -155,6 +142,20 @@ function Analytics() {
               {downloading ? "Generating..." : "Export PDF"}
             </span>
           </button>
+            <button
+    onClick={() => setDrawerOpen(true)}
+    style={{
+      background: "none", border: "none", cursor: "pointer",
+      padding: 4, display: "flex", flexDirection: "column",
+      gap: 5, alignItems: "flex-start"
+    }}
+  >
+    <span style={{ display: "block", width: 22, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
+    <span style={{ display: "block", width: 16, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
+    <span style={{ display: "block", width: 19, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
+  </button>
+
+          
         </div>
         </div>
 
