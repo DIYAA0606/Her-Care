@@ -6,7 +6,7 @@ function Dashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const firstName = user?.email?.split("@")[0] || "there";
+ const firstName = user?.display_name || user?.email?.split("@")[0] || "there";
 
   const actions = [
     { label: "Log cycle", icon: "ti-circle-plus", route: "/log-cycle", bg: "#FFF0F3", color: "#E8748A" },

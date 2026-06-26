@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import BottomNav from "../components/BottomNav";
 
 function MyCycles() {
   const [cycles, setCycles] = useState([]);
@@ -9,79 +10,140 @@ function MyCycles() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCycles = async () => {
-      try {
-        const response = await api.get("/cycles/");
-        setCycles(response.data);
-      } catch (err) {
-        setError("Could not load cycles. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCycles();
+    api.get("/cycles/")
+      .then(res => setCycles(res.data))
+      .catch(() => setError("Could not load cycles. Please try again."))
+      .finally(() => setLoading(false));
   }, []);
 
+  const formatDate = (dateStr) => {
+    if (!dateStr) return null;
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      day: "numeric", month: "short", year: "numeric"
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold">My Cycles</h1>
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="text-sm text-gray-500 hover:text-gray-700"
-          >
-            Back to Dashboard
-          </button>
+    <div style={{ background: "#FFF8F9", minHeight: "100vh", paddingBottom: 90 }}>
+      <div style={{ padding: "52px 20px 20px" }}>
+
+        {/* Header */}
+        <div style={{ marginBottom: 28 }}>
+          <p style={{ fontSize: 13, color: "#A07890", margin: "0 0 4px" }}>Your history</p>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "#2D1F2A", margin: 0 }}>My cycles</h1>
         </div>
 
+        {/* Loading */}
         {loading && (
-          <p className="text-center text-gray-500">Loading...</p>
-        )}
-
-        {error && (
-          <p className="text-center text-red-600">{error}</p>
-        )}
-
-        {!loading && cycles.length === 0 && (
-          <p className="text-center text-gray-500">
-            No cycles logged yet.{" "}
-            <span
-              className="text-purple-600 cursor-pointer"
-              onClick={() => navigate("/log-cycle")}
-            >
-              Log your first one.
-            </span>
-          </p>
-        )}
-
-        {cycles.map((cycle) => (
-          <div
-            key={cycle.id}
-            className="bg-white rounded-lg shadow-sm p-4 mb-3 border border-gray-100"
-          >
-            <p className="font-medium">
-  Started: {cycle.start_date}
-</p>
-            {cycle.end_date && (
-  <p className="text-gray-600 text-sm">
-    Ended: {cycle.end_date}
-  </p>
-)}
-            {cycle.notes && (
-              <p className="text-gray-500 text-sm mt-1">Notes: {cycle.notes}</p>
-            )}
+          <div style={{ textAlign: "center", padding: "60px 0" }}>
+            <p style={{ color: "#A07890", fontSize: 14 }}>Loading your cycles...</p>
           </div>
-        ))}
+        )}
 
-        <button
-          onClick={() => navigate("/log-cycle")}
-          className="mt-4 w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
-        >
-          + Log Another Cycle
-        </button>
+        {/* Error */}
+        {error && (
+          <div style={{
+            background: "#FFF0F3", border: "1px solid #F7C5CE",
+            borderRadius: 12, padding: "10px 14px", marginBottom: 20
+          }}>
+            <p style={{ fontSize: 13, color: "#C0445A", margin: 0 }}>{error}</p>
+          </div>
+        )}
+
+        {/* Empty state */}
+        {!loading && !error && cycles.length === 0 && (
+          <div style={{
+            textAlign: "center", padding: "60px 20px",
+            background: "white", borderRadius: 20, border: "1px solid #F2E8EA"
+          }}>
+            <div style={{
+              width: 56, height: 56, borderRadius: "50%",
+              background: "#FFF0F3", display: "flex",
+              alignItems: "center", justifyContent: "center",
+              margin: "0 auto 16px"
+            }}>
+              <i className="ti ti-calendar" style={{ fontSize: 24, color: "#E8748A" }} />
+            </div>
+            <p style={{ fontSize: 15, fontWeight: 600, color: "#2D1F2A", margin: "0 0 6px" }}>
+              No cycles logged yet
+            </p>
+            <p style={{ fontSize: 13, color: "#A07890", margin: "0 0 20px", lineHeight: 1.6 }}>
+              Start tracking your cycle to see patterns over time.
+            </p>
+            <button
+              onClick={() => navigate("/log-cycle")}
+              style={{
+                background: "#E8748A", color: "white", border: "none",
+                borderRadius: 12, padding: "10px 24px",
+                fontSize: 14, fontWeight: 600, cursor: "pointer"
+              }}
+            >
+              Log your first cycle
+            </button>
+          </div>
+        )}
+
+        {/* Cycle list */}
+        {!loading && cycles.length > 0 && (
+          <>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
+              {cycles.map((cycle) => (
+                <div key={cycle.id} style={{
+                  background: "white", borderRadius: 18,
+                  border: "1px solid #F2E8EA", padding: "18px 20px",
+                  borderLeft: "4px solid #E8748A"
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: cycle.notes ? 8 : 0 }}>
+                    <div style={{
+                      background: "#FFF0F3", borderRadius: 8,
+                      width: 32, height: 32, flexShrink: 0,
+                      display: "flex", alignItems: "center", justifyContent: "center"
+                    }}>
+                      <i className="ti ti-calendar" style={{ fontSize: 15, color: "#E8748A" }} />
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 14, fontWeight: 700, color: "#2D1F2A", margin: 0 }}>
+                        {formatDate(cycle.start_date)}
+                        {cycle.end_date && (
+                          <span style={{ fontWeight: 400, color: "#A07890" }}>
+                            {" "}→ {formatDate(cycle.end_date)}
+                          </span>
+                        )}
+                      </p>
+                      {!cycle.end_date && (
+                        <p style={{ fontSize: 12, color: "#E8748A", margin: 0, fontWeight: 600 }}>Ongoing</p>
+                      )}
+                    </div>
+                  </div>
+                  {cycle.notes && (
+                    <p style={{
+                      fontSize: 13, color: "#6B4F6B", margin: "8px 0 0",
+                      paddingLeft: 42, lineHeight: 1.5
+                    }}>
+                      {cycle.notes}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => navigate("/log-cycle")}
+              style={{
+                width: "100%", background: "#E8748A", color: "white",
+                border: "none", borderRadius: 14, padding: "13px",
+                fontSize: 15, fontWeight: 600, cursor: "pointer",
+                transition: "background 0.2s"
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = "#D95F75"}
+              onMouseLeave={e => e.currentTarget.style.background = "#E8748A"}
+            >
+              Log another cycle
+            </button>
+          </>
+        )}
       </div>
+      <BottomNav />
     </div>
   );
 }

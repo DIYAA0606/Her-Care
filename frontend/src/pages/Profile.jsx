@@ -5,7 +5,7 @@ import api from "../api/axios";
 import BottomNav from "../components/BottomNav";
 
 function Profile() {
-  const { user, logout } = useAuth();
+  const { user, logout, updateUser } = useAuth();
   const navigate = useNavigate();
 
   const [displayName, setDisplayName] = useState("");
@@ -22,6 +22,7 @@ function Profile() {
         setDisplayName(res.data.display_name || "");
         setCycleLength(res.data.cycle_length || 28);
         setPeriodLength(res.data.period_length || 5);
+        updateUser({ display_name: res.data.display_name });
       })
       .catch(() => setError("Could not load profile."))
       .finally(() => setLoading(false));
@@ -37,6 +38,7 @@ function Profile() {
         cycle_length: cycleLength,
         period_length: periodLength,
       });
+      updateUser({ display_name: displayName });    
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {

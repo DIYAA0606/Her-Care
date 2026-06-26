@@ -17,6 +17,10 @@ export function AuthProvider({ children }) {
     setUser(userData);
   };
 
+  const updateUser = (fields) => {
+    setUser(prev => ({ ...prev, ...fields }));
+  };
+
   const logout = () => {
     setAccessToken(null);
     setUser(null);
@@ -27,6 +31,7 @@ export function AuthProvider({ children }) {
     user,
     login,
     logout,
+    updateUser,
     isAuthenticated: !!accessToken,
   };
 
