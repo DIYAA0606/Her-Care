@@ -34,7 +34,9 @@ function MyReports() {
       <div style={{ padding: "52px 24px 20px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 28 }}>
+        <div style={{ marginBottom: 28 ,display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"}}>
           <p style={{ fontSize: 12, color: "#A07890", margin: "0 0 4px", letterSpacing: "0.04em" }}>
             Your health data
           </p>

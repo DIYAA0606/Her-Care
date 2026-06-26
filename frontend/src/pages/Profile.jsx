@@ -90,7 +90,9 @@ function Profile() {
       <div style={{ padding: "52px 20px 20px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 28 }}>
+        <div style={{ marginBottom: 28, display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"}}>
           <div>
           <p style={{ fontSize: 13, color: "#A07890", margin: "0 0 4px" }}>Your account</p>
           <h1 style={{ fontSize: 24, fontWeight: 700, color: "#2D1F2A", margin: 0 }}>Profile</h1>
