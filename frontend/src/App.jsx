@@ -12,6 +12,8 @@ import MyReports from "./pages/MyReports";
 import Timeline from "./pages/Timeline";
 import Signup from "./pages/Signup";
 import Analytics from "./pages/Analytics";
+import QuickLog from "./pages/QuickLog";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
         <Route path="/timeline" element={<ProtectedRoute><Timeline/></ProtectedRoute>}/>
         <Route path="/signup" element={<Signup />} />
         <Route path="analytics" element={<ProtectedRoute><Analytics/></ProtectedRoute>}/>
+        <Route path="/quick-log" element={<ProtectedRoute><QuickLog/></ProtectedRoute>}/>
+        <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
       </Routes>
     </BrowserRouter>
   );

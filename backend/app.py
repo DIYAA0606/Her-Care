@@ -8,11 +8,16 @@ load_dotenv()
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    CORS(app, origins=[
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://hercare-frontend.vercel.app"
-])
+    CORS(app,
+    origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://hercare-frontend.vercel.app"
+    ],
+    supports_credentials=True,
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+)
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")

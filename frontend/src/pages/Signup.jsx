@@ -13,72 +13,111 @@ function Signup() {
     e.preventDefault();
     setError("");
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("Passwords do not match.");
       return;
     }
     try {
-      await api.post("/auth/signup", {
-        email,
-        password,
-      });
+      await api.post("/auth/signup", { email, password });
       navigate("/login");
     } catch (err) {
-      setError(err.response?.data?.error || "Signup failed. Try again.");
+      setError(err.response?.data?.error || "Signup failed. Please try again.");
     }
   };
 
+  const inputStyle = {
+    width: "100%", boxSizing: "border-box",
+    border: "1px solid #F2E8EA", borderRadius: 12,
+    padding: "11px 14px", fontSize: 14, color: "#2D1F2A",
+    background: "#FFFAFB", outline: "none",
+    transition: "border-color 0.2s"
+  };
+
+  const labelStyle = {
+    fontSize: 13, fontWeight: 600, color: "#6B4F6B",
+    display: "block", marginBottom: 6
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-md w-80"
-      >
-        <h1 className="text-2xl font-semibold mb-6 text-center">Sign Up</h1>
+    <div style={{
+      minHeight: "100vh", background: "#FFF8F9",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      padding: "24px 20px"
+    }}>
+      <div style={{ width: "100%", maxWidth: 360 }}>
 
-        {error && (
-          <p className="text-red-600 text-sm mb-4 text-center">{error}</p>
-        )}
+        {/* Brand header */}
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <h1 style={{ fontSize: 26, fontWeight: 700, color: "#2D1F2A", margin: "0 0 6px" }}>HerCare</h1>
+          <p style={{ fontSize: 14, color: "#A07890", margin: 0 }}>Your personal health companion</p>
+        </div>
 
-        <label className="block text-sm font-medium mb-1">Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border rounded px-3 py-2 mb-4"
-          required
-        />
+        <form onSubmit={handleSubmit} style={{
+          background: "white", borderRadius: 24,
+          border: "1px solid #F2E8EA", padding: "32px 28px"
+        }}>
+          <h2 style={{ fontSize: 20, fontWeight: 700, color: "#2D1F2A", margin: "0 0 24px", textAlign: "center" }}>
+            Create your account
+          </h2>
 
-        <label className="block text-sm font-medium mb-1">Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border rounded px-3 py-2 mb-6"
-          required
-        />
-        <label className="block text-sm font-medium mb-1">Confirm Password</label>
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full border rounded px-3 py-2 mb-6"
-          required
-        />
+          {error && (
+            <div style={{
+              background: "#FFF0F3", border: "1px solid #F7C5CE",
+              borderRadius: 12, padding: "10px 14px", marginBottom: 20
+            }}>
+              <p style={{ fontSize: 13, color: "#C0445A", margin: 0, textAlign: "center" }}>{error}</p>
+            </div>
+          )}
 
+          <div style={{ marginBottom: 16 }}>
+            <label style={labelStyle}>Email</label>
+            <input
+              type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+              required style={inputStyle}
+              onFocus={e => e.target.style.borderColor = "#E8748A"}
+              onBlur={e => e.target.style.borderColor = "#F2E8EA"}
+            />
+          </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-        >
-          Sign Up
-        </button>
-         <p className="text-center text-sm text-gray-500 mt-4">
-          Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Log in
-          </Link>
-        </p>
-      </form>
+          <div style={{ marginBottom: 16 }}>
+            <label style={labelStyle}>Password</label>
+            <input
+              type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+              required style={inputStyle}
+              onFocus={e => e.target.style.borderColor = "#E8748A"}
+              onBlur={e => e.target.style.borderColor = "#F2E8EA"}
+            />
+          </div>
+
+          <div style={{ marginBottom: 28 }}>
+            <label style={labelStyle}>Confirm password</label>
+            <input
+              type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+              required style={inputStyle}
+              onFocus={e => e.target.style.borderColor = "#E8748A"}
+              onBlur={e => e.target.style.borderColor = "#F2E8EA"}
+            />
+          </div>
+
+          <button type="submit" style={{
+            width: "100%", background: "#E8748A", color: "white",
+            border: "none", borderRadius: 14, padding: "13px",
+            fontSize: 15, fontWeight: 600, cursor: "pointer",
+            transition: "background 0.2s"
+          }}
+            onMouseEnter={e => e.target.style.background = "#D95F75"}
+            onMouseLeave={e => e.target.style.background = "#E8748A"}
+          >
+            Create account
+          </button>
+
+          <p style={{ textAlign: "center", fontSize: 13, color: "#A07890", margin: "20px 0 0" }}>
+            Already have an account?{" "}
+            <Link to="/login" style={{ color: "#E8748A", fontWeight: 600, textDecoration: "none" }}>
+              Log in
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }

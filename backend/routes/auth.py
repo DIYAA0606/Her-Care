@@ -99,3 +99,59 @@ def delete_account():
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": "Could not delete account"}), 500
+    
+@auth_bp.route("/profile", methods=["GET"])
+@jwt_required()
+def get_profile():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    return jsonify({
+        "id": user.id,
+        "email": user.email,
+        "display_name": user.display_name,
+        "cycle_length": user.cycle_length or 28,
+        "period_length": user.period_length or 5,
+    }), 200
+
+
+@auth_bp.route("/profile", methods=["PATCH"])
+@jwt_required()
+def update_profile():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    data = request.get_json()
+
+    if "display_name" in data:
+        display_name = data["display_name"].strip()
+        if len(display_name) > 100:
+            return jsonify({"error": "Display name too long"}), 400
+        user.display_name = display_name
+
+    if "cycle_length" in data:
+        cycle_length = int(data["cycle_length"])
+        if not (15 <= cycle_length <= 60):
+            return jsonify({"error": "Cycle length must be between 15 and 60 days"}), 400
+        user.cycle_length = cycle_length
+
+    if "period_length" in data:
+        period_length = int(data["period_length"])
+        if not (1 <= period_length <= 14):
+            return jsonify({"error": "Period length must be between 1 and 14 days"}), 400
+        user.period_length = period_length
+
+    try:
+        db.session.commit()
+        return jsonify({
+            "message": "Profile updated",
+            "display_name": user.display_name,
+            "cycle_length": user.cycle_length,
+            "period_length": user.period_length,
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Could not update profile"}), 500

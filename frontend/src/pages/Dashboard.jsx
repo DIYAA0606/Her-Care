@@ -25,7 +25,14 @@ function Dashboard() {
       <div style={{ padding: "52px 20px 20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
           <div>
-            <p style={{ fontSize: 13, color: "#A07890", margin: 0 }}>Good to see you</p>
+            <p style={{ fontSize: 13, color: "#A07890", margin: 0 }}>
+  {(() => {
+    const h = new Date().getHours();
+    if (h < 12) return "Good morning";
+    if (h < 17) return "Good afternoon";
+    return "Good evening";
+  })()}
+</p>
             <h1 style={{ fontSize: 24, fontWeight: 700, color: "#2D1F2A", margin: 0 }}>{firstName}</h1>
           </div>
           <button onClick={logout} style={{
@@ -38,9 +45,10 @@ function Dashboard() {
         </div>
 
         <div style={{
-          background: "white", borderRadius: 20, padding: 20,
-          border: "1px solid #F2E8EA", marginBottom: 28
-        }}>
+  background: "white", borderRadius: 20, padding: 20,
+  border: "1px solid #F2E8EA", marginBottom: 28,
+  borderLeft: "4px solid #E8748A"
+}}>
           <p style={{ fontSize: 13, fontWeight: 600, color: "#A07890", margin: "0 0 4px", textTransform: "uppercase", letterSpacing: "0.06em" }}>Your health space</p>
           <p style={{ fontSize: 14, color: "#6B4F6B", margin: 0, lineHeight: 1.6 }}>
             Track your cycles, symptoms and lab reports — all in one place.
@@ -49,7 +57,7 @@ function Dashboard() {
 
         <p style={{ fontSize: 12, fontWeight: 700, color: "#A07890", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 14 }}>Quick actions</p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
           {actions.map((action) => (
             <button key={action.route} onClick={() => navigate(action.route)}
               style={{
@@ -64,7 +72,7 @@ function Dashboard() {
               }}>
                 <i className={`ti ${action.icon}`} style={{ fontSize: 18, color: action.color }} />
               </div>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#2D1F2A" }}>{action.label}</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#2D1F2A" }}>{action.label}</span>
             </button>
           ))}
         </div>

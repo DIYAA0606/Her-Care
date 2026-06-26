@@ -17,6 +17,7 @@ function BottomNav() {
     <nav style={{
       position: "fixed", bottom: 0, left: 0, right: 0,
       background: "white", borderTop: "1px solid #F2E8EA",
+boxShadow: "0 -4px 20px rgba(232, 116, 138, 0.06)",
       display: "flex", justifyContent: "space-around",
       padding: "8px 0 20px", zIndex: 100
     }}>
@@ -24,7 +25,7 @@ function BottomNav() {
         const isActive = path === item.route;
         if (item.primary) {
           return (
-            <button key="log" onClick={() => navigate("/log-cycle")}
+            <button key="log" onClick={() => navigate("/quick-log")}
               style={{
                 background: "#E8748A", border: "none", borderRadius: "50%",
                 width: 48, height: 48, display: "flex", alignItems: "center",
