@@ -186,7 +186,7 @@ function Timeline() {
       <div style={{ padding: "52px 24px 20px", position: "relative", zIndex: 1 }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 28 display: "flex",
+        <div style={{ marginBottom: 28, display: "flex",
     alignItems: "center",
     justifyContent: "space-between"}}>
           <div>
