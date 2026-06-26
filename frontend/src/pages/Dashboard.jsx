@@ -1,6 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../components/BottomNav";
+import DecorativeWave from "../components/DecorativeWave";
 
 function Dashboard() {
   const { user, logout } = useAuth();
@@ -20,7 +21,8 @@ function Dashboard() {
   ];
 
   return (
-    <div style={{ background: "#FFF8F9", minHeight: "100vh", paddingBottom: 90 }}>
+    <div style={{ background: "#FFF8F9", minHeight: "100vh", paddingBottom: 90, position: "relative", overflow: "hidden" }}>
+  <DecorativeWave position="top-right" opacity={0.3} />
 
       <div style={{ padding: "52px 20px 20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
