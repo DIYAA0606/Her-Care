@@ -91,8 +91,10 @@ function Profile() {
 
         {/* Header */}
         <div style={{ marginBottom: 28 }}>
+          <div>
           <p style={{ fontSize: 13, color: "#A07890", margin: "0 0 4px" }}>Your account</p>
           <h1 style={{ fontSize: 24, fontWeight: 700, color: "#2D1F2A", margin: 0 }}>Profile</h1>
+          </div>
            <button
     onClick={() => setDrawerOpen(true)}
     style={{

@@ -187,12 +187,14 @@ function Timeline() {
 
         {/* Header */}
         <div style={{ marginBottom: 28 }}>
+          <div>
           <p style={{ fontSize: 12, color: "#A07890", margin: "0 0 4px", letterSpacing: "0.04em" }}>
             Your journey
           </p>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: "#2D1F2A", margin: 0 }}>
             Timeline
           </h1>
+          </div>
           <button
     onClick={() => setDrawerOpen(true)}
     style={{
