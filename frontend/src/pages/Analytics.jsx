@@ -110,15 +110,14 @@ function Analytics() {
           justifyContent: "space-between", marginBottom: 28
         }}>
           <div>
-            <div>
             <p style={{ fontSize: 12, color: "#A07890", margin: "0 0 4px", letterSpacing: "0.04em" }}>
               Your patterns
             </p>
             <h1 style={{ fontSize: 22, fontWeight: 700, color: "#2D1F2A", margin: 0 }}>
               Analytics
             </h1>
-
             </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <button
     onClick={() => setDrawerOpen(true)}
     style={{
@@ -131,7 +130,6 @@ function Analytics() {
     <span style={{ display: "block", width: 16, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
     <span style={{ display: "block", width: 19, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
   </button>
-          </div>
 
           <button
             onClick={handleDownloadPDF}
@@ -157,6 +155,7 @@ function Analytics() {
               {downloading ? "Generating..." : "Export PDF"}
             </span>
           </button>
+        </div>
         </div>
 
         {/* Empty state */}
