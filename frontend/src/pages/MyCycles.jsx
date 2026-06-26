@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import BottomNav from "../components/BottomNav";
-
+import SideDrawer from "../components/SideDrawer";
 function MyCycles() {
   const [cycles, setCycles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,13 +24,26 @@ function MyCycles() {
   };
 
   return (
-    <div style={{ background: "#FFF8F9", minHeight: "100vh", paddingBottom: 90 }}>
+    <div style={{ background: "#FFF8F9", minHeight: "100vh", paddingBottom: 40 }}>
       <div style={{ padding: "52px 20px 20px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 28 }}>
-          <p style={{ fontSize: 13, color: "#A07890", margin: "0 0 4px" }}>Your history</p>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: "#2D1F2A", margin: 0 }}>My cycles</h1>
+        <div style={{ marginBottom: 28, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+  <div>
+    <p style={{ fontSize: 13, color: "#A07890", margin: "0 0 4px" }}>Your history</p>
+    <h1 style={{ fontSize: 24, fontWeight: 700, color: "#2D1F2A", margin: 0 }}>My cycles</h1>
+  </div>
+  <button onClick={() => setDrawerOpen(true)}
+  style={{
+    background: "none", border: "none", cursor: "pointer",
+    padding: 4, display: "flex", flexDirection: "column",
+    gap: 5, alignItems: "flex-start"
+  }}
+>
+  <span style={{ display: "block", width: 22, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
+  <span style={{ display: "block", width: 16, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
+  <span style={{ display: "block", width: 19, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
+</button>
         </div>
 
         {/* Loading */}
@@ -143,7 +156,7 @@ function MyCycles() {
           </>
         )}
       </div>
-      <BottomNav />
+      <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </div>
   );
 }

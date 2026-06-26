@@ -165,3 +165,66 @@ def get_reports():
         }
         for r in reports
     ]), 200
+
+@reports_bp.route("/tip", methods=["GET"])
+@jwt_required()
+def get_health_tip():
+    import google.generativeai as genai
+
+    user_id = get_jwt_identity()
+
+    try:
+        from models.cycle import Cycle
+        from models.symptom import Symptom
+
+        cycles = Cycle.query.filter_by(user_id=user_id).order_by(Cycle.start_date.desc()).all()
+        symptoms = Symptom.query.filter_by(user_id=user_id).order_by(Symptom.date.desc()).limit(10).all()
+        reports = LabReport.query.filter_by(user_id=user_id).count()
+
+        cycle_count = len(cycles)
+        symptom_count = len(symptoms)
+
+        avg_cycle_length = None
+        if cycle_count >= 2:
+            lengths = []
+            for i in range(len(cycles) - 1):
+                if cycles[i].start_date and cycles[i + 1].start_date:
+                    diff = (cycles[i].start_date - cycles[i + 1].start_date).days
+                    if 15 <= diff <= 60:
+                        lengths.append(diff)
+            if lengths:
+                avg_cycle_length = round(sum(lengths) / len(lengths), 1)
+
+        last_cycle_date = cycles[0].start_date.strftime("%B %d") if cycles else None
+        recent_symptoms = list(set([s.symptom_type for s in symptoms[:5]])) if symptoms else []
+
+        stats_summary = f"""
+User health summary:
+- Total cycles logged: {cycle_count}
+- Average cycle length: {f"{avg_cycle_length} days" if avg_cycle_length else "not enough data"}
+- Last cycle started: {last_cycle_date or "never"}
+- Recent symptoms: {", ".join(recent_symptoms) if recent_symptoms else "none logged"}
+- Lab reports uploaded: {reports}
+"""
+
+        genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+        model = genai.GenerativeModel("gemini-2.5-flash")
+
+        prompt = f"""You are a warm, calm health companion in a women's health app called HerCare.
+Based on this user's health data, give ONE short, caring observation or gentle tip.
+Keep it under 2 sentences. Be specific to their data. Do not give medical advice.
+Do not start with "I". Sound like a thoughtful friend, not a doctor or a bot.
+If there is very little data, encourage them warmly to keep tracking.
+
+{stats_summary}
+
+Respond with only the tip text, nothing else."""
+
+        response = model.generate_content(prompt)
+        tip = response.text.strip()
+
+        return jsonify({"tip": tip}), 200
+
+    except Exception as e:
+        print(f"Tip generation failed: {e}")
+        return jsonify({"tip": "Keep tracking your health — every entry helps build a clearer picture of your wellbeing."}), 200

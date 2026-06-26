@@ -32,7 +32,7 @@ function App() {
         <Route path="/my-reports" element={<ProtectedRoute><MyReports/></ProtectedRoute>}/>
         <Route path="/timeline" element={<ProtectedRoute><Timeline/></ProtectedRoute>}/>
         <Route path="/signup" element={<Signup />} />
-        <Route path="analytics" element={<ProtectedRoute><Analytics/></ProtectedRoute>}/>
+        <Route path="/analytics" element={<ProtectedRoute><Analytics/></ProtectedRoute>}/>
         <Route path="/quick-log" element={<ProtectedRoute><QuickLog/></ProtectedRoute>}/>
         <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
         <Route path="/delete-account" element={<ProtectedRoute><DeleteAccount/></ProtectedRoute>}/>

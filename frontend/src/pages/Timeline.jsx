@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import BottomNav from "../components/BottomNav";
+import SideDrawer from "../components/SideDrawer";
 import DecorativeWave from "../components/DecorativeWave";
 
 const SEVERITY_LABELS = ["", "Mild", "Low", "Moderate", "High", "Severe"];
@@ -10,6 +10,7 @@ function Timeline() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [drawerOpen,setDrawerOpen]=useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -192,6 +193,18 @@ function Timeline() {
           <h1 style={{ fontSize: 22, fontWeight: 700, color: "#2D1F2A", margin: 0 }}>
             Timeline
           </h1>
+          <button
+    onClick={() => setDrawerOpen(true)}
+    style={{
+      background: "none", border: "none", cursor: "pointer",
+      padding: 4, display: "flex", flexDirection: "column",
+      gap: 5, alignItems: "flex-start"
+    }}
+  >
+    <span style={{ display: "block", width: 22, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
+    <span style={{ display: "block", width: 16, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
+    <span style={{ display: "block", width: 19, height: 2, background: "#2D1F2A", borderRadius: 2 }} />
+  </button>
         </div>
 
         {/* Loading */}
@@ -263,7 +276,7 @@ function Timeline() {
           </div>
         ))}
       </div>
-      <BottomNav />
+      <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </div>
   );
 }
