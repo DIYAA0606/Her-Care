@@ -11,7 +11,7 @@ function Dashboard() {
   const actions = [
     { label: "Log cycle", icon: "ti-circle-plus", route: "/log-cycle", bg: "#FFF0F3", color: "#E8748A" },
     { label: "Log symptom", icon: "ti-mood-heart", route: "/log-symptom", bg: "#EFF5E4", color: "#838F58" },
-    { label: "Upload report", icon: "ti-file-upload", route: "/upload-report", bg: "#F4EEF8", color: "#8B5CA8" },
+    { label: "Upload report", icon: "ti-file-upload", route: "/upload-reports", bg: "#F4EEF8", color: "#8B5CA8" },
     { label: "Timeline", icon: "ti-timeline", route: "/timeline", bg: "#FFF8EE", color: "#C8860A" },
     { label: "My cycles", icon: "ti-calendar", route: "/my-cycles", bg: "#FFF0F3", color: "#E8748A" },
     { label: "My symptoms", icon: "ti-heart-rate-monitor", route: "/my-symptoms", bg: "#EFF5E4", color: "#838F58" },
