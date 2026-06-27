@@ -218,16 +218,8 @@ function Analytics() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
             {[
               { label: "Cycles logged", value: data.cycle_count ?? "—" },
-              {
-                label: "Avg cycle",
-                value: data.avg_cycle_length || data.avg_period_length 
-  ? `${data.avg_cycle_length || data.avg_period_length} days` 
-  : "—"
-              },
-              {
-                label: "Avg period",
-                value: data.avg_period_length ? `${data.avg_period_length}d` : "—"
-              },
+{ label: "Avg cycle", value: data.avg_cycle_length ? `${data.avg_cycle_length}d` : "—" },
+{ label: "Avg period", value: data.avg_period_length ? `${data.avg_period_length}d` : "—" },
             ].map((stat) => (
               <div key={stat.label} style={{ textAlign: "center" }}>
                 <p style={{
