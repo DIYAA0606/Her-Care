@@ -167,6 +167,9 @@ def get_reports():
         for r in reports
     ]), 200
 
+# Simple in-memory cache — resets when server restarts
+_tip_cache = {}
+
 @reports_bp.route("/tip", methods=["GET", "OPTIONS"])
 @cross_origin(origins=[
     "http://localhost:5173",
@@ -177,9 +180,16 @@ def get_reports():
 def get_health_tip():
     if request.method == "OPTIONS":
         return jsonify({}), 200
+
     import google.generativeai as genai
+    from datetime import date
 
     user_id = get_jwt_identity()
+
+    # check cache first — only call Gemini once per user per day
+    cache_key = f"{user_id}_{date.today().isoformat()}"
+    if cache_key in _tip_cache:
+        return jsonify({"tip": _tip_cache[cache_key]}), 200
 
     try:
         from models.cycle import Cycle
@@ -231,8 +241,12 @@ Respond with only the tip text, nothing else."""
         response = model.generate_content(prompt)
         tip = response.text.strip()
 
+        # cache it for today
+        _tip_cache[cache_key] = tip
+
         return jsonify({"tip": tip}), 200
 
     except Exception as e:
         print(f"Tip generation failed: {e}")
-        return jsonify({"tip": "Keep tracking your health — every entry helps build a clearer picture of your wellbeing."}), 200
+        fallback = "Keep tracking your health — every entry helps build a clearer picture of your wellbeing."
+        return jsonify({"tip": fallback}), 200
