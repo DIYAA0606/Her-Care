@@ -220,7 +220,9 @@ function Analytics() {
               { label: "Cycles logged", value: data.cycle_count ?? "—" },
               {
                 label: "Avg cycle",
-                value: data.avg_cycle_length ? `${data.avg_cycle_length}d` : "—"
+                value: data.avg_cycle_length || data.avg_period_length 
+  ? `${data.avg_cycle_length || data.avg_period_length} days` 
+  : "—"
               },
               {
                 label: "Avg period",

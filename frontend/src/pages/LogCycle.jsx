@@ -152,7 +152,7 @@ function LogCycle() {
             </div>
           ) : (
             <p style={{ fontSize: 12, color: "#C0B0BC", fontStyle: "italic" }}>
-              Tap to begin
+              Tap start, then end date
             </p>
           )}
         </div>
