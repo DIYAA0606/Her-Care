@@ -150,7 +150,9 @@ function Timeline() {
           {event.type === "lab_report" && (
             <>
               <p style={{ fontSize: 14, fontWeight: 600, color: "#2D1F2A", margin: "0 0 8px" }}>
-                {event.data.filename}
+                {event.data.filename.includes("_") 
+  ? event.data.filename.substring(event.data.filename.indexOf("_") + 1) 
+  : event.data.filename}
               </p>
               {event.data.results?.length > 0 && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>

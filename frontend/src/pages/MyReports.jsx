@@ -145,7 +145,9 @@ function MyReports() {
                             maxWidth: 180,
                             overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
                           }}>
-                            {report.filename}
+                            {report.filename.includes("_") 
+  ? report.filename.substring(report.filename.indexOf("_") + 1) 
+  : report.filename}
                           </p>
                           <p style={{ fontSize: 12, color: "#A07890", margin: 0 }}>
                             {formatDate(report.upload_date?.slice(0, 10))}
