@@ -61,19 +61,20 @@ def get_analytics():
 
     for report in reports:
         for res in report.results:
-            if res.test_type not in trends:
-                trends[res.test_type] = []
-            trends[res.test_type].append({
+            clean_type = res.test_type.strip().upper()
+            if clean_type not in trends:
+                trends[clean_type] = []
+            trends[clean_type].append({
                 "value": res.value,
                 "date": report.upload_date.date().isoformat()
             })
-
     result["lab_trends"] = trends
 
     # 4. Health flags
     flags = []
 
     for test_type, readings in trends.items():
+        test_type = test_type.strip().upper()
         if test_type not in NORMAL_RANGES:
             continue
         normal = NORMAL_RANGES[test_type]
