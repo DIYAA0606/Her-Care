@@ -95,7 +95,7 @@ function MyReports() {
               Upload your lab reports to keep all your health data in one place.
             </p>
             <button
-              onClick={() => navigate("/upload-report")}
+              onClick={() => navigate("/upload-reports")}
               style={{
                 background: "#8B5CA8", color: "white", border: "none",
                 borderRadius: 12, padding: "10px 24px",
