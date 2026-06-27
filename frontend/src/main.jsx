@@ -11,3 +11,10 @@ createRoot(document.getElementById('root')).render(
     </AuthProvider>
   </StrictMode>,
 )
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('HerCare SW registered'))
+      .catch((err) => console.log('SW registration failed:', err));
+  });
+}
