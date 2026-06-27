@@ -25,7 +25,7 @@ function Login() {
   },
   onError: () => setError("Google sign-in failed. Please try again.")
 });
-
+console.log("Google Client ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
