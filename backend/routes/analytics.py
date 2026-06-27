@@ -29,10 +29,13 @@ def get_analytics():
     cycles = Cycle.query.filter_by(user_id=user_id).order_by(Cycle.start_date).all()
     result["cycle_count"] = len(cycles)
 
-    lengths = [c.cycle_length for c in cycles if c.cycle_length]
-    result["avg_cycle_length"] = round(sum(lengths) / len(lengths), 1) if lengths else None
+    sorted_cycles = sorted(cycles, key=lambda c: c.start_date)
+    cycle_gaps = []
+    for i in range(1, len(sorted_cycles)):
+        gap = (sorted_cycles[i].start_date - sorted_cycles[i-1].start_date).days
+        cycle_gaps.append(gap)
+    result["avg_cycle_length"] = round(sum(cycle_gaps) / len(cycle_gaps), 1) if cycle_gaps else None
 
-    # calculate cycle lengths from dates where not stored
     date_lengths = []
     for c in cycles:
         if c.start_date and c.end_date:
