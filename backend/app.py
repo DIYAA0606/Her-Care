@@ -34,6 +34,11 @@ def create_app(test_config=None):
     migrate.init_app(app, db)
     bcrypt.init_app(app)
     jwt.init_app(app)
+    @jwt.user_lookup_loader
+    def user_lookup_callback(_jwt_header, jwt_data):
+        from models.user import User
+        identity = jwt_data["sub"]
+        return User.query.filter_by(id=identity).first()
     limiter.init_app(app)
     from models.user import User
     from models.cycle import Cycle
