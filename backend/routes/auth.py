@@ -7,9 +7,64 @@ from models.symptom import Symptom
 from models.lab_report import LabReport
 from models.lab_result import LabResult
 import os
+
 auth_bp=Blueprint("auth",__name__)
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
+import requests as http_requests
+
+@auth_bp.route("/google", methods=["POST"])
+def google_auth():
+    data = request.get_json()
+    access_token = data.get("access_token")
+
+    if not access_token:
+        return jsonify({"error": "No token provided"}), 400
+
+    try:
+        # get user info from Google using the access token
+        google_response = http_requests.get(
+            "https://www.googleapis.com/oauth2/v2/userinfo",
+            headers={"Authorization": f"Bearer {access_token}"}
+        )
+        user_info = google_response.json()
+        email = user_info.get("email")
+
+        if not email:
+            return jsonify({"error": "Could not get email from Google"}), 400
+
+        # find or create user
+        user = User.query.filter_by(email=email).first()
+
+        if not user:
+            # new user — create without password
+            user = User(
+                email=email,
+                password_hash=bcrypt.generate_password_hash(
+                    os.urandom(32).hex()
+                ).decode("utf-8"),
+                display_name=user_info.get("name", "").split()[0] if user_info.get("name") else None
+            )
+            db.session.add(user)
+            db.session.commit()
+
+        access_token_jwt = create_access_token(identity=user.id)
+        refresh_token_jwt = create_refresh_token(identity=user.id)
+
+        return jsonify({
+            "access_token": access_token_jwt,
+            "refresh_token": refresh_token_jwt,
+            "user": {
+                "id": user.id,
+                "email": user.email
+            }
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": "Google authentication failed"}), 500
 @auth_bp.route("/signup", methods=["POST"])
 @limiter.limit("3 per minute")
+
 def signup():
     data = request.get_json()
     email = data.get("email")
